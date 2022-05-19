@@ -63,7 +63,7 @@ function App() {
     </div>,
     <div className="row">
       <div className="col-12 col-lg-6">
-        {items.length > 0 && <Datatable value={items}></Datatable>}
+        {/* {items.length > 0 && <Datatable value={items}></Datatable>} */}
       </div>
       <div className="col-12 col-lg-6">
         <div className="row">
@@ -79,9 +79,4 @@ function App() {
 
 export default App;
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));

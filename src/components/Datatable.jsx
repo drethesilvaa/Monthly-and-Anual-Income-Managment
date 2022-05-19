@@ -49,7 +49,6 @@ class Datatable extends Component {
       {
         field: "Datamov",
         headerName: "Data",
-        resizable: true,
         valueFormatter: dateFormatter,
         comparator: dateComparator,
       },

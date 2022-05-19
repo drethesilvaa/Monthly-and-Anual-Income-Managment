@@ -1,17 +1,17 @@
-import React, { useState, Component } from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 import Graph from "./graphs";
 
-function groupByKey(array, key) {
-  var month = "";
-  var valor = 0;
-  return array.reduce((hash, obj) => {
-    if (obj[key] === undefined) return hash;
-    return Object.assign(hash, {
-      [obj[key]]: (hash[obj[key]] || []).concat(obj),
-    });
-  }, {});
-}
+// function groupByKey(array, key) {
+//   var month = "";
+//   var valor = 0;
+//   return array.reduce((hash, obj) => {
+//     if (obj[key] === undefined) return hash;
+//     return Object.assign(hash, {
+//       [obj[key]]: (hash[obj[key]] || []).concat(obj),
+//     });
+//   }, {});
+// }
 
 function Calcdebcred(deb, cred) {
   deb = deb.toString().replace(",", ".");
@@ -43,12 +43,25 @@ function doMathonArray(params) {
         ),
       });
     }
+    return "";
   });
-  console.log(arr);
+  // console.log(arr);
   arr.sort(function (a, b) {
     return a.Datamov - b.Datamov;
   });
-  return arr;
+
+  const results = arr.filter((element) => {
+    if (
+      Object.keys(element).length !== 0 &&
+      !Object.values(element).includes("Invalid date")
+    ) {
+      return true;
+    }
+
+    return false;
+  });
+
+  return results;
 
   // let result = groupByKey(arr, "Datamov");
 
@@ -57,48 +70,46 @@ function doMathonArray(params) {
   // obj.map((item) => console.log(item["03"]));
 }
 
-class MediaMensal extends Component {
-  state = {
-    _data: this.props.value,
-  };
+export default function MediaMensal(props) {
+  const [meses, setMeses] = React.useState([]);
 
-  render() {
-    let val = doMathonArray(this.state._data);
+  useEffect(() => {
+    setMeses((prevState) => prevState.concat(props.value));
+  }, [props.value]);
 
-    let displayTable = val
-      .filter(function (dados) {
-        if (dados.Datamov === undefined) {
-          return false; // skip
-        }
-        return true;
-      })
-      .map((dados, i) =>
-        dados != "" ? (
-          <tr key={i}>
-            <th scope="row">{dados.Datamov}</th>
-            {<td>{dados.valor}€</td>}
-            {/* <td>{Math.round(dados.valor).toFixed(2)}€</td> */}
-          </tr>
-        ) : (
-          ""
-        )
-      );
+  let val = doMathonArray(meses);
 
-    return (
-      <div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Mes</th>
-              <th scope="col">Saldo</th>
-            </tr>
-          </thead>
-          <tbody>{displayTable}</tbody>
-        </table>
-        <div>{displayTable.length > 0 && <Graph value={val}></Graph>}</div>
-      </div>
+  let displayTable = val
+    .filter(function (dados) {
+      if (dados.Datamov === undefined) {
+        return false; // skip
+      }
+      return true;
+    })
+    .map((dados, i) =>
+      dados !== "" ? (
+        <tr key={i}>
+          <th scope="row">{dados.Datamov}</th>
+          {<td>{dados.valor}€</td>}
+          {/* <td>{Math.round(dados.valor).toFixed(2)}€</td> */}
+        </tr>
+      ) : (
+        ""
+      )
     );
-  }
-}
 
-export default MediaMensal;
+  return (
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Mes</th>
+            <th scope="col">Saldo</th>
+          </tr>
+        </thead>
+        <tbody>{displayTable}</tbody>
+      </table>
+      <div>{<Graph value={val}></Graph>}</div>
+    </div>
+  );
+}
