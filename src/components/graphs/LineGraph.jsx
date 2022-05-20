@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import moment from "moment";
 
-export default function Graphs(props) {
+export default function LineGraph(props) {
   const data = [{}];
 
   let displayLinearGraph = props.value

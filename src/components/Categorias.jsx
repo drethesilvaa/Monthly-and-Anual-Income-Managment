@@ -1,17 +1,5 @@
 import React, { useEffect } from "react";
-import moment from "moment";
-import Graph from "./graphs/LineGraph";
-
-// function groupByKey(array, key) {
-//   var month = "";
-//   var valor = 0;
-//   return array.reduce((hash, obj) => {
-//     if (obj[key] === undefined) return hash;
-//     return Object.assign(hash, {
-//       [obj[key]]: (hash[obj[key]] || []).concat(obj),
-//     });
-//   }, {});
-// }
+import PieGraph from "./graphs/PieGraph.jsx";
 
 function Calcdebcred(deb, cred) {
   deb = deb.toString().replace(",", ".");
@@ -19,11 +7,11 @@ function Calcdebcred(deb, cred) {
   return cred - deb;
 }
 
-function doMathonArray(params) {
+function getCategoriasfromArray(params) {
   var arr = [{}];
   params.map((item) => {
     var objIndex = arr.findIndex(
-      (obj) => obj.Datamov === moment(item["Datamov"], "DD/MM/YYYY").format("M")
+      (obj) => obj["Categoria "] === item["Categoria "]
     );
 
     if (objIndex > -1) {
@@ -36,7 +24,7 @@ function doMathonArray(params) {
         );
     } else {
       arr.push({
-        Datamov: moment(item["Datamov"], "DD/MM/YYYY").format("M"),
+        "Categoria ": item["Categoria "],
         valor: Calcdebcred(
           item["Débito "] === "" ? 0 : item["Débito "],
           item["Crédito "] === "" ? 0 : item["Crédito "]
@@ -46,9 +34,9 @@ function doMathonArray(params) {
     return "";
   });
   // console.log(arr);
-  arr.sort(function (a, b) {
-    return a.Datamov - b.Datamov;
-  });
+  //   arr.sort(function (a, b) {
+  //     return a.Datamov - b.Datamov;
+  //   });
 
   const results = arr.filter((element) => {
     if (
@@ -70,18 +58,18 @@ function doMathonArray(params) {
   // obj.map((item) => console.log(item["03"]));
 }
 
-export default function MediaMensal(props) {
-  const [meses, setMeses] = React.useState([]);
+export default function Categorias(props) {
+  const [categoria, setCategorias] = React.useState([]);
 
   useEffect(() => {
-    setMeses((prevState) => prevState.concat(props.value));
+    setCategorias((prevState) => prevState.concat(props.value));
   }, [props.value]);
 
-  let val = doMathonArray(meses);
+  let val = getCategoriasfromArray(categoria);
 
   let displayTable = val
     .filter(function (dados) {
-      if (dados.Datamov === undefined) {
+      if (dados["Categoria "] === " ") {
         return false; // skip
       }
       return true;
@@ -89,7 +77,7 @@ export default function MediaMensal(props) {
     .map((dados, i) =>
       dados !== "" ? (
         <tr key={i}>
-          <th scope="row">{dados.Datamov}</th>
+          <th scope="row">{dados["Categoria "]}</th>
           {<td>{dados.valor}€</td>}
           {/* <td>{Math.round(dados.valor).toFixed(2)}€</td> */}
         </tr>
@@ -103,13 +91,16 @@ export default function MediaMensal(props) {
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Mes</th>
-            <th scope="col">Saldo</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Valor</th>
           </tr>
         </thead>
         <tbody>{displayTable}</tbody>
       </table>
-      <div>{<Graph value={val}></Graph>}</div>
+      <div>
+        <h3>Custo Anual por Categorias</h3>
+        {<PieGraph value={val}></PieGraph>}
+      </div>
     </div>
   );
 }

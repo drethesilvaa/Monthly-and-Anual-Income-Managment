@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import * as XLSX from "xlsx";
 import Datatable from "./components/Datatable";
 import MediaMensal from "./components/mediamensal";
+import Categorias from "./components/Categorias";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -62,15 +63,21 @@ function App() {
       </div>
     </div>,
     <div className="row">
-      <div className="col-12 col-lg-6">
-        {/* {items.length > 0 && <Datatable value={items}></Datatable>} */}
-      </div>
+      {/* <div className="col-12 col-lg-6">
+        {items.length > 0 && <Datatable value={items}></Datatable>}
+      </div> */}
       <div className="col-12 col-lg-6">
         <div className="row">
           <div className="col-12">
             {items.length > 0 && <MediaMensal value={items}></MediaMensal>}
           </div>
-          <div className="col-12"></div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-6">
+        <div className="row">
+          <div className="col-12">
+            {items.length > 0 && <Categorias value={items}></Categorias>}
+          </div>
         </div>
       </div>
     </div>,
