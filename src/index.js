@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import * as XLSX from "xlsx";
-import Datatable from "./components/Datatable";
+// import Datatable from "./components/Datatable";
 import MediaMensal from "./components/mediamensal";
 import Categorias from "./components/Categorias";
+import "./stylesheets/style.css";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -48,7 +49,7 @@ function App() {
   return [
     <div className="row">
       <div className="col-12 text-center">
-        <h1>My spreedsheet</h1>
+        <h1 className="text-5xl">My spreedsheet</h1>
       </div>
     </div>,
     <div className="row">

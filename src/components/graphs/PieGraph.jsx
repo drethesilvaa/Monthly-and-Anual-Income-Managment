@@ -13,8 +13,20 @@ const COLORS = [
   "#00C49F",
   "#FFBB28",
   "#FF8042",
-  "#FF8043",
-  "#FF8873",
+  "#a16130",
+  "#5ea828",
+  "#54965c",
+  "#11bf62",
+  "#11bcbf",
+  "#1f4d5e",
+  "#5894d1",
+  "#123099",
+  "#544885",
+  "#4a1ff2",
+  "#7820b3",
+  "#d169ba",
+  "#c94485",
+  "#a3142c",
 ];
 
 const RADIAN = Math.PI / 180;
@@ -36,6 +48,7 @@ const renderCustomizedLabel = ({
       x={x}
       y={y}
       fill="white"
+      className="graphLabel"
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
@@ -58,7 +71,7 @@ export default function PieGraph(props) {
       dados["Categoria "] !== " "
         ? data.push({
             name: dados["Categoria "],
-            value: parseInt(dados.valor.toString().replace("-", "")),
+            value: parseInt(dados.valor.toString().replace("-", "") + "$"),
           })
         : ""
     );
@@ -70,7 +83,7 @@ export default function PieGraph(props) {
   return (
     <ResponsiveContainer width="100%" height={500}>
       <PieChart>
-        <Legend verticalAlign="top" height={36} />
+        <Legend layout="vertical" verticalAlign="middle" align="right" />
         <Pie
           data={data}
           cx="50%"
@@ -82,11 +95,11 @@ export default function PieGraph(props) {
           fill="#8884d8"
           dataKey="value"
         >
-          <Tooltip />
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
+        <Tooltip />
       </PieChart>
     </ResponsiveContainer>
   );

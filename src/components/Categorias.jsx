@@ -98,7 +98,7 @@ export default function Categorias(props) {
         <tbody>{displayTable}</tbody>
       </table>
       <div>
-        <h3>Custo Anual por Categorias</h3>
+        <h3 className="text-3xl">Custo Anual por Categorias</h3>
         {<PieGraph value={val}></PieGraph>}
       </div>
     </div>
