@@ -69,7 +69,7 @@ export default function Categorias(props) {
 
   let displayTable = val
     .filter(function (dados) {
-      if (dados["Categoria "] === " ") {
+      if (dados["Categoria "] === " " || dados.valor > 0) {
         return false; // skip
       }
       return true;
@@ -78,7 +78,7 @@ export default function Categorias(props) {
       dados !== "" ? (
         <tr key={i}>
           <th scope="row">{dados["Categoria "]}</th>
-          {<td>{dados.valor}€</td>}
+          {<td>{parseInt(dados.valor.toString().replace("-", ""))}€</td>}
           {/* <td>{Math.round(dados.valor).toFixed(2)}€</td> */}
         </tr>
       ) : (
@@ -86,13 +86,17 @@ export default function Categorias(props) {
       )
     );
 
+  alert(props.nMeses);
+
   return (
     <div>
+      <h3 className="text-3xl">Custos</h3>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Categoria</th>
+            <th scope="col">Custos Fixos (Anuais)</th>
             <th scope="col">Valor</th>
+            <th scope="col">Media/Mes</th>
           </tr>
         </thead>
         <tbody>{displayTable}</tbody>

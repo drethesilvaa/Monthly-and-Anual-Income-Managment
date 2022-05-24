@@ -71,7 +71,7 @@ export default function PieGraph(props) {
       dados["Categoria "] !== " "
         ? data.push({
             name: dados["Categoria "],
-            value: parseInt(dados.valor.toString().replace("-", "") + "$"),
+            value: parseInt(dados.valor.toString().replace("-", "") + "€"),
           })
         : ""
     );
