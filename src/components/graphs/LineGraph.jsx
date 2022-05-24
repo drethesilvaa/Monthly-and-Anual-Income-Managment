@@ -16,13 +16,13 @@ export default function LineGraph(props) {
 
   let displayLinearGraph = props.value
     .filter(function (dados) {
-      if (dados.Datamov === undefined) {
+      if (dados.Datamov === undefined || dados.Datamov === "") {
         return false; // skip
       }
       return true + "$";
     })
     .map((dados, i) =>
-      dados != ""
+      dados !== ""
         ? data.push({
             Datamov: moment(dados.Datamov, "M").format("MMMM"),
             Saldo: dados.valor,
@@ -30,11 +30,12 @@ export default function LineGraph(props) {
         : ""
     );
 
+  data.shift();
+  console.log(data);
+
   return (
-    <ResponsiveContainer width="100%" height={500}>
+    <ResponsiveContainer width="80%" height={300}>
       <LineChart
-        width={500}
-        height={300}
         data={data}
         margin={{
           top: 5,
@@ -48,12 +49,7 @@ export default function LineGraph(props) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line
-          type="monotone"
-          dataKey="Saldo"
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-        />
+        <Line type="monotone" dataKey="Saldo" stroke="#8884d8" dot={false} />
       </LineChart>
     </ResponsiveContainer>
   );

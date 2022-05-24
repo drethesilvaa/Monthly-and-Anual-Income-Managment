@@ -79,6 +79,12 @@ export default function Categorias(props) {
         <tr key={i}>
           <th scope="row">{dados["Categoria "]}</th>
           {<td>{parseInt(dados.valor.toString().replace("-", ""))}€</td>}
+          {
+            <td>
+              {parseInt(dados.valor.toString().replace("-", "") / props.nMeses)}
+              €
+            </td>
+          }
           {/* <td>{Math.round(dados.valor).toFixed(2)}€</td> */}
         </tr>
       ) : (
@@ -86,10 +92,8 @@ export default function Categorias(props) {
       )
     );
 
-  alert(props.nMeses);
-
   return (
-    <div>
+    <div className="col-12">
       <h3 className="text-3xl">Custos</h3>
       <table class="table">
         <thead>
